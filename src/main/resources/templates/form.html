@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${club.id == null} ? 'Registrar Nuevo Club' : 'Editar Club'"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Patrón de fondo animado */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 1px, transparent 1px),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: movePattern 20s linear infinite;
+            z-index: 0;
+        }
+        
+        @keyframes movePattern {
+            0% { background-position: 0 0; }
+            100% { background-position: 60px 60px; }
+        }
+        
+        /* Navbar mejorado */
+        .navbar {
+            background: linear-gradient(135deg, #1e293b, #334155) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            padding: 1rem 0;
+            position: relative;
+            z-index: 100;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-brand:hover {
+            transform: scale(1.05);
+            color: #06b6d4 !important;
+        }
+        
+        .navbar-brand::before {
+            content: '⚽ ';
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .btn-outline-light {
+            border: 2px solid white;
+            font-weight: 600;
+            padding: 8px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-light:hover {
+            background: white;
+            color: #1e293b !important;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Container principal */
+        .container {
+            position: relative;
+            z-index: 10;
+            padding-top: 2rem;
+            padding-bottom: 3rem;
+        }
+        
+        /* Título principal */
+        h2 {
+            background: white;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            position: relative;
+            animation: fadeInDown 0.6s ease;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Alertas mejoradas */
+        .alert {
+            border: none;
+            border-radius: 15px;
+            font-weight: 500;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            animation: slideInDown 0.5s ease;
+        }
+        
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .alert-danger {
+            background: linear-gradient(135deg, #f87171, #ef4444);
+            color: white;
+        }
+        
+        .alert-success {
+            background: linear-gradient(135deg, #34d399, #10b981);
+            color: white;
+        }
+        
+        /* Formulario card */
+        .card {
+            border: none;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(20px);
+            padding: 2.5rem !important;
+            animation: fadeInUp 0.8s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #06b6d4);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Labels mejorados */
+        .form-label {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .form-label::before {
+            content: '📋';
+            font-size: 1.2rem;
+        }
+        
+        /* Inputs mejorados */
+        .form-control, .form-select {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 12px 18px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            background: white;
+            transform: translateY(-2px);
+        }
+        
+        .form-control::placeholder {
+            color: #9ca3af;
+            font-style: italic;
+        }
+        
+        /* Checkboxes mejorados */
+        .form-check {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: #f9fafb;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .form-check:hover {
+            background: #f3f4f6;
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+        
+        .form-check-input {
+            width: 1.3em;
+            height: 1.3em;
+            border: 2px solid #667eea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .form-check-input:checked {
+            background-color: #667eea;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
+        }
+        
+        .form-check-label {
+            font-weight: 500;
+            color: #374151;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+        
+        /* Secciones del formulario */
+        .mb-3 {
+            position: relative;
+            animation: fadeIn 0.6s ease forwards;
+            opacity: 0;
+        }
+        
+        .mb-3:nth-child(1) { animation-delay: 0.1s; }
+        .mb-3:nth-child(2) { animation-delay: 0.2s; }
+        .mb-3:nth-child(3) { animation-delay: 0.3s; }
+        .mb-3:nth-child(4) { animation-delay: 0.4s; }
+        .mb-3:nth-child(5) { animation-delay: 0.5s; }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+        
+        /* Botón guardar mejorado */
+        .btn-success {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            padding: 15px 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-success::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn-success:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+            background: linear-gradient(135deg, #764ba2, #667eea);
+        }
+        
+        /* Iconos decorativos */
+        .floating-shape {
+            position: fixed;
+            opacity: 0.1;
+            animation: floatShape 15s ease-in-out infinite;
+            z-index: 1;
+        }
+        
+        .shape-1 {
+            top: 10%;
+            left: 5%;
+            font-size: 3rem;
+            animation-delay: 0s;
+        }
+        
+        .shape-2 {
+            top: 70%;
+            left: 10%;
+            font-size: 2.5rem;
+            animation-delay: 2s;
+        }
+        
+        .shape-3 {
+            top: 20%;
+            right: 8%;
+            font-size: 2.8rem;
+            animation-delay: 4s;
+        }
+        
+        .shape-4 {
+            bottom: 15%;
+            right: 5%;
+            font-size: 3.2rem;
+            animation-delay: 6s;
+        }
+        
+        @keyframes floatShape {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, -20px) rotate(90deg); }
+            50% { transform: translate(-20px, 20px) rotate(180deg); }
+            75% { transform: translate(20px, 20px) rotate(270deg); }
+        }
+        
+        /* Separador visual */
+        .section-divider {
+            margin: 2rem 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #667eea, #764ba2, transparent);
+            border-radius: 10px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .card {
+                padding: 1.5rem !important;
+            }
+            
+            .btn-success {
+                padding: 12px 35px;
+                font-size: 1rem;
+            }
+            
+            .floating-shape {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<!-- Formas decorativas flotantes -->
+<i class="bi bi-trophy-fill floating-shape shape-1"></i>
+<i class="bi bi-star-fill floating-shape shape-2"></i>
+<i class="bi bi-shield-fill-check floating-shape shape-3"></i>
+<i class="bi bi-award-fill floating-shape shape-4"></i>
+
+<nav class="navbar navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Fútbol Club</a>
+        <a class="btn btn-outline-light" th:href="@{/listar}">
+            <i class="bi bi-arrow-left-circle me-2"></i>Volver
+        </a>
+    </div>
+</nav>
+
+<div class="container col-md-8">
+    <h2 class="mb-4 text-center" th:text="${club.id == null} ? 'Registrar Nuevo Club' : 'Editar Club'"></h2>
+
+    <!-- Mensajes -->
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        <i class="bi bi-exclamation-circle-fill me-2"></i>
+        <span th:text="${error}"></span>
+    </div>
+    <div th:if="${success}" class="alert alert-success" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        <span th:text="${success}"></span>
+    </div>
+
+    <form th:action="@{/guardar}" th:object="${club}" method="post" class="card p-4 shadow bg-white rounded">
+        <div class="mb-3">
+            <label class="form-label">Nombre del Club:</label>
+            <input type="text" th:field="*{nombre}" class="form-control" placeholder="Ej. Real Madrid" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Ciudad:</label>
+            <input type="text" th:field="*{ciudad}" class="form-control" placeholder="Ej. Madrid" required>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="mb-3">
+            <label class="form-label">Entrenador:</label>
+            <select th:field="*{entrenador}" class="form-select" required>
+                <option value="">-- Selecciona un entrenador --</option>
+                <option th:each="entrenador : ${entrenadores}"
+                        th:value="${entrenador.id}"
+                        th:text="${entrenador.nombre + ' ' + entrenador.apellido}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Asociación:</label>
+            <select th:field="*{asociacion}" class="form-select" required>
+                <option value="">-- Selecciona una asociación --</option>
+                <option th:each="asociacion : ${asociaciones}"
+                        th:value="${asociacion.id}"
+                        th:text="${asociacion.nombre}"></option>
+            </select>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="mb-3">
+            <label class="form-label">Competiciones:</label>
+            <div th:each="comp : ${competiciones}" class="form-check">
+                <input class="form-check-input" type="checkbox" th:field="*{competiciones}" th:value="${comp.id}">
+                <label class="form-check-label" th:text="${comp.nombre}"></label>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success px-4">
+                💾 Guardar
+            </button>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
