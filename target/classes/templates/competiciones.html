@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Competiciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image:
+                radial-gradient(circle at 25% 25%, rgba(255,255,255,0.08) 2px, transparent 2px),
+                radial-gradient(circle at 75% 75%, rgba(255,255,255,0.08) 2px, transparent 2px);
+            background-size: 80px 80px;
+            animation: movePattern 30s linear infinite;
+            z-index: 0;
+        }
+        @keyframes movePattern {
+            0% { background-position: 0 0; }
+            100% { background-position: 80px 80px; }
+        }
+        .container { position: relative; z-index: 10; padding: 2rem 1rem 3rem; }
+        h2 {
+            background: white;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            font-size: 2.8rem;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            position: relative;
+        }
+        h2::before { content: '🏆'; margin-right: 15px; }
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px; left: 50%;
+            transform: translateX(-50%);
+            width: 100px; height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+        .comp-card {
+            background: rgba(255,255,255,0.98);
+            border-radius: 20px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease;
+        }
+        .comp-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .comp-info h5 {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #1e293b;
+            margin: 0;
+        }
+        .comp-info p {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        .btn-ver {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border: none;
+            padding: 10px 25px;
+            font-weight: 700;
+            border-radius: 20px;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(245,158,11,0.3);
+            text-decoration: none;
+        }
+        .btn-ver:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(245,158,11,0.5);
+            background: linear-gradient(135deg, #d97706, #b45309);
+            color: white;
+        }
+        .btn-volver {
+            background: linear-gradient(135deg, #64748b, #475569);
+            border: none;
+            padding: 12px 35px;
+            font-weight: 700;
+            border-radius: 50px;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(71,85,105,0.3);
+            text-decoration: none;
+        }
+        .btn-volver:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(71,85,105,0.5);
+            background: linear-gradient(135deg, #475569, #334155);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Competiciones</h2>
+
+    <div th:each="comp : ${competiciones}" class="comp-card">
+        <div class="comp-info">
+            <h5 th:text="${comp.nombre}"></h5>
+            <p th:text="'Premio: $' + ${comp.montoPremio}"></p>
+        </div>
+        <a th:href="@{/competiciones/{id}/clubes(id=${comp.id})}" class="btn-ver">
+            <i class="bi bi-eye-fill me-2"></i>Ver Clubes
+        </a>
+    </div>
+
+    <div class="mt-4">
+        <a th:href="@{/listar}" class="btn-volver">
+            <i class="bi bi-arrow-left-circle me-2"></i>Volver
+        </a>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
