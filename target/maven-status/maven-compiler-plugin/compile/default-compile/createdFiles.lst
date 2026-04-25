@@ -1,0 +1,17 @@
+com\futbol\app\controladores\ClubVistaControlador.class
+com\futbol\app\controladores\JugadorVistaControlador.class
+com\futbol\app\DataLoader.class
+com\futbol\app\repositorios\EntrenadorRepositorio.class
+com\futbol\app\FutbolApplication.class
+com\futbol\app\controladores\JugadorControlador.class
+com\futbol\app\controladores\EntrenadorVistaControlador.class
+com\futbol\app\entidades\Competicion.class
+com\futbol\app\repositorios\AsociacionRepositorio.class
+com\futbol\app\repositorios\CompeticionRepositorio.class
+com\futbol\app\entidades\Club.class
+com\futbol\app\controladores\ClubControlador.class
+com\futbol\app\repositorios\ClubRepositorio.class
+com\futbol\app\entidades\Entrenador.class
+com\futbol\app\repositorios\JugadorRepositorio.class
+com\futbol\app\entidades\Asociacion.class
+com\futbol\app\entidades\Jugador.class
