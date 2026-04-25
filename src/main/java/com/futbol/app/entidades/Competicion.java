@@ -1,23 +1,21 @@
 package com.futbol.app.entidades;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "competiciones")
+@Document(collection = "competiciones")
 public class Competicion {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
+    @Id
+    private String id;
     private String nombre;
     private int montoPremio;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
 
-    // Getters y Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public int getMontoPremio() { return montoPremio; }

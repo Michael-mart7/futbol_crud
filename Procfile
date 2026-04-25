@@ -1,0 +1,1 @@
+web: java -jar target/FUTBOL-1.jar

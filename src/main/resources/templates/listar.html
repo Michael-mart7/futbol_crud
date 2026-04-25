@@ -474,7 +474,7 @@
 
 <nav class="navbar navbar-dark bg-dark mb-4">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Fútbol Club</a>
+        <a class="navbar-brand" href="/">Fútbol Club Manager</a>
         <a class="btn btn-success" th:href="@{/nuevo}">
             <i class="bi bi-plus-circle me-2"></i>Nuevo Club
         </a>
@@ -492,7 +492,7 @@
         <table class="table table-striped table-bordered shadow">
             <thead class="table-dark text-center">
                 <tr>
-                    <th><i class="bi bi-hash me-1"></i>ID</th>
+                    
                     <th><i class="bi bi-shield-fill me-1"></i>Nombre</th>
                     <th><i class="bi bi-geo-alt-fill me-1"></i>Ciudad</th>
                     <th><i class="bi bi-person-fill me-1"></i>Entrenador</th>
@@ -503,7 +503,7 @@
             </thead>
             <tbody>
                 <tr th:each="club, iterStat : ${clubes}">
-                    <td th:text="${club.id}" class="text-center"></td>
+                    
                     <td th:text="${club.nombre}" class="fw-bold"></td>
                     <td th:text="${club.ciudad}"></td>
                     <td th:text="${club.entrenador.nombre + ' ' + club.entrenador.apellido}"></td>
@@ -530,7 +530,14 @@
         </table>
     </div>
 </div>
-
+<div class="container mb-5 d-flex gap-3">
+    <a th:href="@{/competiciones}" class="btn btn-warning btn-lg flex-fill">
+        <i class="bi bi-trophy-fill me-2"></i> Ver Competiciones
+    </a>
+    <a th:href="@{/entrenadores}" class="btn btn-info btn-lg flex-fill" style="color:white;">
+        <i class="bi bi-person-badge-fill me-2"></i> Gestionar Entrenadores
+    </a>
+</div>
 <!-- Badge contador de clubes -->
 <div class="badge-counter">
     <i class="bi bi-list-ul"></i>

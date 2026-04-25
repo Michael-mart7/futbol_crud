@@ -403,7 +403,7 @@
 
 <nav class="navbar navbar-dark bg-dark mb-4">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Fútbol Club</a>
+        <a class="navbar-brand" href="/">Fútbol Club Manager</a>
         <a class="btn btn-outline-light" th:href="@{/listar}">
             <i class="bi bi-arrow-left-circle me-2"></i>Volver
         </a>
@@ -424,6 +424,7 @@
     </div>
 
     <form th:action="@{/guardar}" th:object="${club}" method="post" class="card p-4 shadow bg-white rounded">
+		<input type="hidden" th:field="*{id}" />
         <div class="mb-3">
             <label class="form-label">Nombre del Club:</label>
             <input type="text" th:field="*{nombre}" class="form-control" placeholder="Ej. Real Madrid" required>
